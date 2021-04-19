@@ -1,1 +1,1 @@
-# efCore
+# efCore GraphQL using Hotchocolate
