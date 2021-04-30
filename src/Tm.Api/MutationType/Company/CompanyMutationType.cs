@@ -8,7 +8,7 @@ namespace Tm.Api.MutationType.Company
 {
 	public class CompanyMutationType : BaseMutationType
 	{
-		public async Task<int> Add( [Service] ICompanyCommandService service, CreateCompanyVm model)
+		public async Task<string> Add( [Service] ICompanyCommandService service, CreateCompanyVm model)
 		{
 			return Ok(await service.Create(model));
 		}
@@ -20,13 +20,13 @@ namespace Tm.Api.MutationType.Company
 			return Ok();
 		}
 
-		public async Task<string> Inactivate([Service] ICompanyCommandService service, int id)
+		public async Task<string> Inactivate([Service] ICompanyCommandService service, string id)
 		{
 			await service.Inactivate(id);
 			return Ok();
 		}
 
-		public async Task<string> Activate([Service] ICompanyCommandService service, int id)
+		public async Task<string> Activate([Service] ICompanyCommandService service, string id)
 		{
 			await service.Activate(id);
 			return Ok();

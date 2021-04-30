@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HotChocolate.AspNetCore.Authorization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,7 +20,9 @@ namespace Tm.Api.MutationType
     }
     public class Mutation
     {
+        [Authorize]
         public CompanyMutationType Company => new CompanyMutationType();
+        public AccountMutationType Account => new AccountMutationType();
        
 
     }

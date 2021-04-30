@@ -1,6 +1,7 @@
 ﻿using Common.GraphQL;
 using Core;
 using HotChocolate;
+using HotChocolate.AspNetCore.Authorization;
 using HotChocolate.Data;
 using HotChocolate.Types;
 using System.Linq;
@@ -8,7 +9,8 @@ using Tm.Api.Extensions.GraphQL;
 
 namespace Tm.Api.QueryTypes.Company
 {
-    public class CompanyQueryType
+	[Authorize]
+	public class CompanyQueryType
 	{
 		[UseQueryContext]
 		[UseProjection]

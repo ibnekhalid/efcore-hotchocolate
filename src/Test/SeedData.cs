@@ -5,9 +5,9 @@ namespace Test
 {
     public static class SeedData
     {
-        public static int CompanyId;
-        public static int ProjectId;
-        public static int UserId;
+        public static string CompanyId;
+        public static string ProjectId;
+        public static string UserId;
 
 
         public static void SeedSampleData(this BaseCommandContext context)

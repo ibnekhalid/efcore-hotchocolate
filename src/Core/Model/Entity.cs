@@ -1,8 +1,10 @@
-﻿namespace Core.Model
+﻿using System;
+
+namespace Core.Model
 {
-    public class Entity<T>
+    public class StringEntity
     {
-        public T Id { get; protected set; }
+        public string Id { get; protected set; } = Guid.NewGuid().ToString();
     }
   
 }

@@ -12,7 +12,7 @@ namespace Test.Company
     [TestCaseOrderer(PriorityOrderer.Name, PriorityOrderer.Assembly)]
     public class CompanyCommandTest : TestBase
     {
-        private readonly int _companyId = SeedData.CompanyId;
+        private readonly string _companyId = SeedData.CompanyId;
         private readonly ICompanyCommandService _commandService;
         private readonly IBaseCommandContext _context;
         public CompanyCommandTest(Fixture fixture) : base(fixture)

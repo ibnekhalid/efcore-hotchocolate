@@ -11,6 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.5" />
+
     <PackageReference Include="HotChocolate.AspNetCore" Version="11.1.0-preview.84" />
     <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="11.1.0-preview.84" />
     <PackageReference Include="HotChocolate.AspNetCore.Voyager" Version="10.5.5" />
@@ -36,6 +40,10 @@
     <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\Persistent\Persistent.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="QueryTypes\Account\" />
   </ItemGroup>
 
 

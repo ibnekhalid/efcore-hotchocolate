@@ -12,9 +12,8 @@ namespace Tm.Api.Extensions
         public static IServiceCollection RegisterCommandQueryDbContext(this IServiceCollection services, string connectionString, bool isInMemory = false)
         {
             services.AddDbContext<BaseContext>(QueryConfigurations);
-            services.AddDbContextPool<BaseQueryContext>(QueryConfigurations);
             services.AddPooledDbContextFactory<BaseQueryContext>(QueryConfigurations);
-           
+
             #region Commands
             services.AddDbContext<BaseCommandContext>(Configurations);
             services.AddScoped<IBaseCommandContext>(provider => provider.GetService<BaseCommandContext>());

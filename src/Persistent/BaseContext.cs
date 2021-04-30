@@ -5,10 +5,11 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System.Threading;
 using Core.Mananger.DBContext;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Persistent
 {
-    public class BaseContext : DbContext
+    public class BaseContext : IdentityDbContext<Core.Model.User,Role,string>
     {
        // protected readonly ILoggerFactory LoggerFactory;
         protected readonly IHostEnvironment Environment;
@@ -25,8 +26,9 @@ namespace Persistent
            
             Environment = environment;
         }
+        public override DbSet<User> Users { get; set; }
+        public override DbSet<Role> Roles { get; set; }
         public DbSet<Company> Company { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<UserProject> UserProjects { get; set; }
 
@@ -34,6 +36,7 @@ namespace Persistent
         {
             var assemblyWithConfigurations = GetType().Assembly; //get whatever assembly you want
             modelBuilder.ApplyConfigurationsFromAssembly(assemblyWithConfigurations);
+            base.OnModelCreating(modelBuilder);
         }
     }
    
