@@ -7,7 +7,7 @@ namespace Core.Model
     {
         public string CompanyId { get; set; }
         public string Title { get; set; }
-        public State Status { get; set; }
+        public Status Status { get; set; }
         public virtual Company Company { get; set; }
         public virtual List<UserProject> UserProjects { get; set; } = new List<UserProject>();
     }

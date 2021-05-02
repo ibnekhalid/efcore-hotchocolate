@@ -10,7 +10,7 @@ namespace Core.Model
         #region Properties
         public override string Id { get; set; } = Guid.NewGuid().ToString();
         public string CompanyId { get; protected set; }
-        public State Status { get; protected set; }
+        public Status Status { get; protected set; }
 
         #endregion
 
@@ -35,9 +35,9 @@ namespace Core.Model
         #region Behaviour 
 
         public void Inactivate()
-          => Status = State.Inactive;
+          => Status = Status.Inactive;
         public void Activate()
-            => Status = State.Active;
+            => Status = Status.Active;
         #endregion
     }
 

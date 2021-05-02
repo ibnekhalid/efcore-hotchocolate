@@ -5,25 +5,27 @@ using HotChocolate.AspNetCore.Authorization;
 using HotChocolate.Data;
 using HotChocolate.Types;
 using System.Linq;
+using Tm.Api.Extensions;
 using Tm.Api.Extensions.GraphQL;
 
 namespace Tm.Api.QueryTypes.Company
 {
-	[Authorize]
 	public class CompanyQueryType
 	{
+		[Authorize]
 		[UseQueryContext]
 		[UseProjection]
 		[UseFiltering]
 		[UseFirstOrDefault]
-		public IQueryable<Core.Model.Company> GetCompany([ScopedService] BaseQueryContext context,int companyId)
+		public IQueryable<Core.Model.Company> GetCompany([GraphQLSession] AuthSession session,[ScopedService] BaseQueryContext context,int companyId)
 			=> context.Company.Where(x => x.Id.Equals(companyId));
+		[Authorize]
 		[UseQueryContext]
 		[UsePaging]
 		[UseProjection]
 		[UseFiltering]
 		[UseSorting]
-		public IQueryable<Core.Model.Company> GetCompanies([ScopedService] BaseQueryContext context)
+		public IQueryable<Core.Model.Company> GetCompanies([GraphQLSession] AuthSession session, [ScopedService] BaseQueryContext context)
 			=> context.Company;
 
 

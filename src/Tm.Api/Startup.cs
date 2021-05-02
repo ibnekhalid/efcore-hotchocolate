@@ -92,7 +92,19 @@ namespace Tm.Api
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(config =>
+            }).AddPolicyScheme("switch", "cookie or bearer", options =>
+            {
+                options.ForwardDefaultSelector = context =>
+                {
+                    var bearerAuth =
+                        context.Request.Headers["Authorization"].FirstOrDefault()?.StartsWith("Bearer ") ?? false;
+                    // You could also check for the actual path here if that's your requirement:
+                    // eg: if (context.HttpContext.Request.Path.StartsWithSegments("/api", StringComparison.InvariantCulture))
+                    return JwtBearerDefaults.AuthenticationScheme;
+                };
+
+            })
+                .AddJwtBearer(config =>
             {
                 config.RequireHttpsMetadata = false;
                 config.SaveToken = true;
@@ -110,7 +122,6 @@ namespace Tm.Api
             });
 
             #endregion
-
             services.AddControllers();
         }
 
@@ -130,6 +141,7 @@ namespace Tm.Api
                 .AllowAnyHeader());
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

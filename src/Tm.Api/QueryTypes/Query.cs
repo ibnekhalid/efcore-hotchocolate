@@ -18,9 +18,9 @@ namespace Tm.Api.QueryTypes
 		protected override void Configure(IObjectTypeDescriptor<Query> descriptor)
 		{
 			descriptor.Field<CompanyQueryType>(resolver =>
-				resolver.GetCompany(default, default)).Name("Company");
+				resolver.GetCompany(default,default, default)).Name("Company");
 			descriptor.Field<CompanyQueryType>(resolver =>
-				resolver.GetCompanies(default)).Name("Companies");
+				resolver.GetCompanies(default,default)).Name("Companies");
 		}
 	}
 }

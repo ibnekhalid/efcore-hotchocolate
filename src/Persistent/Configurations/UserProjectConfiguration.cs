@@ -14,7 +14,7 @@ namespace Persistent.Configurations
             template.Property(e => e.Id).HasColumnName("UserProjectID");
             template.Property(e => e.UserId).HasColumnName("UserID");
             template.Property(e => e.ProjectId).HasColumnName("ProjectID");
-            template.Property(e => e.Status).HasConversion(s => (byte)s, s => (State)s);
+            template.Property(e => e.Status).HasConversion(s => (byte)s, s => (Status)s);
         }
     }
 }

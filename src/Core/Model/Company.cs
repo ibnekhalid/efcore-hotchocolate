@@ -9,7 +9,7 @@ namespace Core.Model
     {
         #region Properties
         public string Name { get; protected set; }
-        public State Status { get; protected set; }
+        public Status Status { get; protected set; }
         #endregion
 
         #region Constructors
@@ -29,14 +29,14 @@ namespace Core.Model
         #region Behavior
         public void Update(string name)
         {
-            if (Status == State.Inactive)
+            if (Status == Status.Inactive)
                 throw new Exception("Company is inactive.");
             Name = name;
         }
         public void Inactivate()
-            => Status = State.Inactive;
+            => Status = Status.Inactive;
         public void Activate()
-            => Status = State.Active;
+            => Status = Status.Active;
 
         #region User
         public User GetUser(int id)

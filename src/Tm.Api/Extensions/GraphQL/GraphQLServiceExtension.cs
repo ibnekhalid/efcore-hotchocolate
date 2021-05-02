@@ -39,6 +39,7 @@ namespace Tm.Api.Extensions.GraphQL
 			services.AddGraphQLServer()
 				.BindRuntimeType<Guid, GuidTypeConverter>()
 				.RegisterTypes(types)
+				 
 				.SetConfigurations(exceptionDetails);
 			services.AddErrorFilter<GraphQlErrorFilter>();
 			return services;
@@ -59,8 +60,12 @@ namespace Tm.Api.Extensions.GraphQL
 				.AddHttpRequestInterceptor((ctx, executor, builder, token) =>
 				{
 					var identity = ctx?.GetUser()?.Identity;
-
+					if (identity is not null && identity.IsAuthenticated)
+					{
+						builder.SetProperty("session", new AuthSession(ctx.User));
+					}
 					return ValueTask.CompletedTask;
+
 
 				})
 				.SetRequestOptions(provider => new RequestExecutorOptions { IncludeExceptionDetails = includeExceptionDetail });

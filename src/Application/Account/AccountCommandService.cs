@@ -16,114 +16,118 @@ using System.Threading.Tasks;
 
 namespace Application.Account
 {
-    public class AccountCommandService : IAccountCommandService
-    {
-        private const string V = "account";
-        readonly UserManager<Core.Model.User> userManager;
-        readonly SignInManager<Core.Model.User> signInManager;
-        readonly AppSettings _appSettings;
-        private readonly ICompanyRepository _companyRepository;
-        
-
-
-        public AccountCommandService(
-            ICompanyRepository companyRepository,
-           UserManager<Core.Model.User> userManager,
-           SignInManager<Core.Model.User> signInManager,
-           IOptions<AppSettings> options)
-        {
-            _companyRepository = companyRepository;
-            this.userManager = userManager;
-            this.signInManager = signInManager;
-            _appSettings = options.Value;
-        }
-       
+	public class AccountCommandService : IAccountCommandService
+	{
+		private const string V = "account";
+		readonly UserManager<Core.Model.User> userManager;
+		readonly SignInManager<Core.Model.User> signInManager;
+		readonly AppSettings _appSettings;
+		private readonly ICompanyRepository _companyRepository;
 
 
 
-        public async Task<string> GetToken( LoginModel loginModel)
-        {
-                var loginResult = await signInManager.PasswordSignInAsync(loginModel.Username, loginModel.Password, isPersistent: false, lockoutOnFailure: false);
+		public AccountCommandService(
+			ICompanyRepository companyRepository,
+		   UserManager<Core.Model.User> userManager,
+		   SignInManager<Core.Model.User> signInManager,
+		   IOptions<AppSettings> options)
+		{
+			_companyRepository = companyRepository;
+			this.userManager = userManager;
+			this.signInManager = signInManager;
+			_appSettings = options.Value;
+		}
 
-                if (!loginResult.Succeeded)
-                {
-                    throw new Exception("Failed To Login");
-                }
 
-                var user = await userManager.FindByNameAsync(loginModel.Username);
 
-                return GetToken(user);
-            
 
-        }
+		public async Task<string> GetToken(LoginModel loginModel)
+		{
+			var loginResult = await signInManager.PasswordSignInAsync(loginModel.Username, loginModel.Password, isPersistent: false, lockoutOnFailure: false);
 
-        public async Task<string> RefreshToken(ClaimsPrincipal userClaims)
-        {
-            var user = await userManager.FindByNameAsync(
-                userClaims.Identity.Name ??
-                userClaims.Claims.Where(c => c.Properties.ContainsKey("unique_name")).Select(c => c.Value).FirstOrDefault()
-                );
-            return GetToken(user);
+			if (!loginResult.Succeeded)
+			{
+				throw new Exception("Failed To Login");
+			}
 
-        }
+			var user = await userManager.FindByNameAsync(loginModel.Username);
 
-        public async Task<string> Register(RegisterModel registerModel)
-        {
-            if (await _companyRepository.IsNameDuplicate(registerModel.CompanyName)) throw new Exception($"'{registerModel.CompanyName}' already exists. Please choose a different name.");
-            var company = new Core.Model.Company(registerModel.CompanyName);
-            _companyRepository.Add(company);
+			return GetToken(user);
 
-            await _companyRepository.SaveChanges();
 
-                var user = new Core.Model.User(company, registerModel.Email, registerModel.Username);
+		}
 
-                var identityResult = await userManager.CreateAsync(user, registerModel.Password);
-                if (identityResult.Succeeded)
-                {
-                    await signInManager.SignInAsync(user, isPersistent: false);
-                    return GetToken(user);
-                }
-                else
-                {
-                _companyRepository.Remove(company);
-                await _companyRepository.SaveChanges();
-                throw new Exception(identityResult?.Errors?.First()?.Description);
-                }
-        }
+		public async Task<string> RefreshToken(ClaimsPrincipal userClaims)
+		{
+			var user = await userManager.FindByNameAsync(
+				userClaims.Identity.Name ??
+				userClaims.Claims.Where(c => c.Properties.ContainsKey("unique_name")).Select(c => c.Value).FirstOrDefault()
+				);
+			return GetToken(user);
 
-        private string GetToken(Core.Model.User user)
-        {
-            var utcNow = DateTime.UtcNow;
+		}
+		public async void Logout()
+		{
+			await signInManager.SignOutAsync();
+		}
+		public async Task<string> Register(RegisterModel registerModel)
+		{
+			if (await _companyRepository.IsNameDuplicate(registerModel.CompanyName)) throw new Exception($"'{registerModel.CompanyName}' already exists. Please choose a different name.");
+			var company = new Core.Model.Company(registerModel.CompanyName);
+			_companyRepository.Add(company);
 
-            var claims = new Claim[]
-            {
-                        new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-                        new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
-                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                        new Claim(JwtRegisteredClaimNames.Iat, utcNow.ToString())
-            };
+			await _companyRepository.SaveChanges();
 
-            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.Tokens.Key));
-            var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
-            var jwt = new JwtSecurityToken(
-                signingCredentials: signingCredentials,
-                claims: claims,
-                notBefore: utcNow,
-                expires: utcNow.AddSeconds(_appSettings.Tokens.Lifetime),
-                audience: _appSettings.Tokens.Audience,
-                issuer: _appSettings.Tokens.Issuer
-                );
+			var user = new Core.Model.User(company, registerModel.Email, registerModel.Username);
 
-            return new JwtSecurityTokenHandler().WriteToken(jwt);
+			var identityResult = await userManager.CreateAsync(user, registerModel.Password);
+			if (identityResult.Succeeded)
+			{
+				await signInManager.SignInAsync(user, isPersistent: false);
+				return GetToken(user);
+			}
+			else
+			{
+				_companyRepository.Remove(company);
+				await _companyRepository.SaveChanges();
+				throw new Exception(identityResult?.Errors?.First()?.Description);
+			}
+		}
 
-        }
+		private string GetToken(Core.Model.User user)
+		{
+			var utcNow = DateTime.UtcNow;
 
-    }
+			var claims = new Claim[]
+			{
+						new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+						new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
+						new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+						new Claim(JwtRegisteredClaimNames.Iat, utcNow.ToString())
+			};
 
-    public interface IAccountCommandService: ICommandService
-    {
-        Task<string> Register(RegisterModel registerModel);
-        Task<string> GetToken(LoginModel loginModel);
-        Task<string> RefreshToken(ClaimsPrincipal user);
-    }
+			var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.Tokens.Key));
+			var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
+			var jwt = new JwtSecurityToken(
+				signingCredentials: signingCredentials,
+				claims: claims,
+				notBefore: utcNow,
+				expires: utcNow.AddSeconds(_appSettings.Tokens.Lifetime),
+				audience: _appSettings.Tokens.Audience,
+				issuer: _appSettings.Tokens.Issuer
+				);
+
+			return new JwtSecurityTokenHandler().WriteToken(jwt);
+
+		}
+
+	}
+
+	public interface IAccountCommandService : ICommandService
+	{
+		Task<string> Register(RegisterModel registerModel);
+		Task<string> GetToken(LoginModel loginModel);
+		Task<string> RefreshToken(ClaimsPrincipal user);
+		void Logout();
+	}
 }

@@ -13,30 +13,28 @@ namespace Tm.Api.MutationType.Company
 {
 	public class AccountMutationType : BaseMutationType
 	{
-		public async Task<string> Login( [Service] IAccountCommandService service, LoginModel model)
+		public async Task<string> Login([Service] IAccountCommandService service, LoginModel model)
 		{
 			return Ok(await service.GetToken(model));
 		}
 
 		public async Task<string> Register([Service] IAccountCommandService service, RegisterModel model)
 		{
-			
+
 			await service.Register(model);
 			return Ok();
 		}
 		[Authorize]
-		public async Task<string> RefreshToken([GraphQLSession] ClaimsPrincipal context, [Service] IAccountCommandService service, string id)
+		public async Task<string> RefreshToken([GraphQLSession] ClaimsPrincipal context, [Service] IAccountCommandService service)
 		{
-			
+
 			await service.RefreshToken(context);
 			return Ok();
 		}
-
-		public async Task<string> Activate([Service] ICompanyCommandService service, string id)
+		public string Logout([Service] IAccountCommandService service)
 		{
-			await service.Activate(id);
+			service.Logout();
 			return Ok();
 		}
-
 	}
 }

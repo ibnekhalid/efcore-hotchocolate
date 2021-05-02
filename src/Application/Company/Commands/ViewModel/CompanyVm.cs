@@ -11,7 +11,7 @@ namespace Application.Company.Commands.ViewModel
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public State Status { get; set; }
+        public Status Status { get; set; }
         //public List<User> Users { get; set; }
         //public List<Project> Projects { get; set; }
         public static CompanyVm Map(Core.Model.Company comp)

@@ -12,7 +12,7 @@ namespace Persistent.Configurations
             template.ToTable("Company");
             template.HasIndex(e => e.Id).IsUnique();
             template.Property(e => e.Id).HasColumnName("CompanyID");
-            template.Property(e => e.Status).HasConversion(s => (byte)s, s => (State)s);
+            template.Property(e => e.Status).HasConversion(s => (byte)s, s => (Status)s);
             template.Property(e => e.Name).HasMaxLength(20);
 
            
