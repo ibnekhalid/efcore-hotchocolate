@@ -42,9 +42,5 @@
     <ProjectReference Include="..\Persistent\Persistent.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="QueryTypes\Account\" />
-  </ItemGroup>
-
 
 </Project>

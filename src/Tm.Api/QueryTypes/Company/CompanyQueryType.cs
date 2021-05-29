@@ -17,8 +17,8 @@ namespace Tm.Api.QueryTypes.Company
 		[UseProjection]
 		[UseFiltering]
 		[UseFirstOrDefault]
-		public IQueryable<Core.Model.Company> GetCompany([GraphQLSession] AuthSession session,[ScopedService] BaseQueryContext context,int companyId)
-			=> context.Company.Where(x => x.Id.Equals(companyId));
+		public IQueryable<Core.Model.Company> GetCompany([GraphQLSession] AuthSession session,[ScopedService] BaseQueryContext context)
+			=> context.Company.Where(x => x.Id.Equals(session.CompanyId));
 		[Authorize]
 		[UseQueryContext]
 		[UsePaging]

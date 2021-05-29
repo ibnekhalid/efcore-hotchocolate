@@ -33,16 +33,16 @@ namespace Tm.Api.Extensions
             set => _id = value;
         }
 
-        private string _businessId;
+        private string _companyId;
 
-        public string BusinessId
+        public string CompanyId
         {
             get
             {
                 
-                return _businessId;
+                return _companyId;
             }
-            set => _businessId = value;
+            set => _companyId = value;
         }
 
 

@@ -39,9 +39,11 @@ namespace Core.Model
             => Status = Status.Active;
 
         #region User
-        public User GetUser(int id)
+        public User GetUser(string id)
             => Users.FirstOrDefault(x => x.Id.Equals(id));
-        public User GetUser(string email)
+        public List<User> GetUsers(List<string> id)
+           => Users.Where(x => id.Contains(x.Id)).ToList();
+        public User GetUserByEmail(string email)
           => Users.FirstOrDefault(x => x.Email.Equals(email));
         public void AddUser(User user)
         {
@@ -57,7 +59,7 @@ namespace Core.Model
         #endregion
 
         #region Project
-        public Project GetProject(int id)
+        public Project GetProject(string id)
            => Projects.FirstOrDefault(x => x.Id.Equals(id));
         public void AddProject(Project project)
         {

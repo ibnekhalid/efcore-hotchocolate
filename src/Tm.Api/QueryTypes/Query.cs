@@ -1,14 +1,10 @@
 ﻿using Common.GraphQL;
 using HotChocolate.Types;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Tm.Api.QueryTypes.Company;
 
 namespace Tm.Api.QueryTypes
 {
-	public class Query
+    public class Query
 	{
 		
 	}
@@ -18,9 +14,13 @@ namespace Tm.Api.QueryTypes
 		protected override void Configure(IObjectTypeDescriptor<Query> descriptor)
 		{
 			descriptor.Field<CompanyQueryType>(resolver =>
-				resolver.GetCompany(default,default, default)).Name("Company");
+				resolver.GetCompany(default, default)).Name("Company");
 			descriptor.Field<CompanyQueryType>(resolver =>
 				resolver.GetCompanies(default,default)).Name("Companies");
+			descriptor.Field<ProjectQueryType>(resolver =>
+				resolver.GetProject(default, default, default)).Name("Project");
+			descriptor.Field<ProjectQueryType>(resolver =>
+			resolver.GetProjects(default, default)).Name("Projects");
 		}
 	}
 }
