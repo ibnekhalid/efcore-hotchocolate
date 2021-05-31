@@ -37,6 +37,7 @@ namespace Tm.Api.QueryTypes.Company
         {
             descriptor.BindFieldsExplicitly();
             descriptor.Field(x => x.Id);
+            descriptor.Field(x => x.CompanyId);
             descriptor.Field(x => x.Title);
             descriptor.Field(x => x.Status);
             descriptor.Field(x => x.Users);

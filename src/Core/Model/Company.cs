@@ -43,6 +43,8 @@ namespace Core.Model
             => Users.FirstOrDefault(x => x.Id.Equals(id));
         public List<User> GetUsers(List<string> id)
            => Users.Where(x => id.Contains(x.Id)).ToList();
+        public List<User> GetUsersByEmail(List<string> emails)
+          => Users.Where(x => emails.Contains(x.Email)).ToList();
         public User GetUserByEmail(string email)
           => Users.FirstOrDefault(x => x.Email.Equals(email));
         public void AddUser(User user)

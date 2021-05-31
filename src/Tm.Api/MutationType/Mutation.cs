@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Tm.Api.MutationType.Company;
+using Tm.Api.MutationType.Project;
 
 namespace Tm.Api.MutationType
 {
@@ -23,6 +24,10 @@ namespace Tm.Api.MutationType
         [Authorize]
         public CompanyMutationType Company => new CompanyMutationType();
         public AccountMutationType Account => new AccountMutationType();
+        [Authorize]
+        public ProjectMutationType Project => new ProjectMutationType();
+        [Authorize]
+        public UserMutationType User => new UserMutationType();
        
 
     }

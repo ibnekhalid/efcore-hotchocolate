@@ -18,6 +18,10 @@ namespace Tm.Api.MutationType.Project
 		{
 			return Ok(await service.AddUsers(session.CompanyId, projectId, model));
 		}
+		public async Task<string> AddUser([GraphQLSession] AuthSession session, [Service] IProjectCommandService service, string projectId, string model)
+		{
+			return Ok(await service.AddUser(session.CompanyId, projectId, model));
+		}
 		public async Task<string> Update([GraphQLSession] AuthSession session, [Service] IProjectCommandService service, UpdateProjectVm model)
 		{
 			

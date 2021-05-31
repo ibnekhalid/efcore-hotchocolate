@@ -11,9 +11,9 @@ namespace Tm.Api.Extensions
         {
             
             // Register Query Service
-            types
-                .Where(type => typeof(IQueryService).IsAssignableFrom(type) && !type.IsInterface).ToList()
-                .ForEach(type => services.AddSingleton(type.GetInterface($"I{type.Name}")!, type));
+            //types
+            //    .Where(type => typeof(IQueryService).IsAssignableFrom(type) && !type.IsInterface).ToList()
+            //    .ForEach(type => services.AddSingleton(type.GetInterface($"I{type.Name}")!, type));
 
             // Register Command Service
             

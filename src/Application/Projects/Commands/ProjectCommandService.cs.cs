@@ -2,6 +2,7 @@
 using Application.Projects.Commands.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Application.Projects.Commands
@@ -9,9 +10,11 @@ namespace Application.Projects.Commands
     public class ProjectCommandService : IProjectCommandService
     {
         private readonly ICompanyRepository _companyRepository;
-        public ProjectCommandService(ICompanyRepository companyRepository)
+        private readonly IUserCommandService _userCommandService;
+        public ProjectCommandService(ICompanyRepository companyRepository, IUserCommandService userCommandService)
         {
             _companyRepository = companyRepository;
+            _userCommandService = userCommandService;
         }
         public async Task<string> Create(string companyId, CreateProjectVm vm)
         {
@@ -30,8 +33,26 @@ namespace Application.Projects.Commands
             var project = company.GetProject(projectId) ?? throw new Exception($"No Project found against id:'{projectId}'");
 
             var users = company.GetUsers(vm);
-
+            
             project.AddUsers(users);
+
+            await _companyRepository.SaveChanges();
+            return project.Id;
+        }
+        public async Task<string> AddUser(string companyId, string projectId, string email)
+        {
+            var company = await _companyRepository.GetFirstOrDefault(companyId) ?? throw new Exception($"No Company found against id:'{companyId}'");
+
+            var project = company.GetProject(projectId) ?? throw new Exception($"No Project found against id:'{projectId}'");
+
+            var user = company.GetUserByEmail(email);
+            if(user is null)
+            {
+               await _userCommandService.Create(companyId, new CreateUserVm { Email = email });
+                user = company.GetUserByEmail(email);
+            }
+            
+            project.AddUsers(new List<Core.Model.User> { user });
 
             await _companyRepository.SaveChanges();
             return project.Id;

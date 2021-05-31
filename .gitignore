@@ -18,3 +18,8 @@
 /.vs/TaskManagement/v16/TestStore/0
 /src/Test/bin/Debug
 /src/Test/obj
+/src/Application/bin/Release/net5.0
+/src/Common/bin/Release/net5.0
+/src/Core/bin/Release/net5.0
+/src/Persistent/bin/Release/net5.0
+/src/Tm.Api/bin/Release/net5.0

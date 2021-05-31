@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="User\Repository\" />
     <Folder Include="Projects\Repository\" />
   </ItemGroup>
 

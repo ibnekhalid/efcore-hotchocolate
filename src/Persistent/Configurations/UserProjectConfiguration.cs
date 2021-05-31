@@ -14,6 +14,8 @@ namespace Persistent.Configurations
             template.Property(e => e.Id).HasColumnName("UserProjectID");
             template.Property(e => e.UserId).HasColumnName("UserID");
             template.Property(e => e.ProjectId).HasColumnName("ProjectID");
+            template.HasOne(x => x.User).WithOne().OnDelete(DeleteBehavior.NoAction);
+            template.HasOne(x => x.Project).WithOne().OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

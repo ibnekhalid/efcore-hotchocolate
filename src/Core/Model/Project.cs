@@ -14,7 +14,7 @@ namespace Core.Model
         #endregion
         #region Navigations
         public virtual Company Company { get; protected set; }
-        public virtual List<UserProject> Users { get; set; } = new List<UserProject>();
+        public virtual IList<User> Users { get; protected set; } = new List<User>();
         #endregion
         #region Constructors
         protected Project()
@@ -40,13 +40,25 @@ namespace Core.Model
 
         }
         public void AddUsers(List<User> users)
-        {
-            Users.AddRange(users.Select(x => new UserProject(x, this)));
+		{
+            var usersList = Users.ToList();
+            users.ForEach(u =>
+            {
+                
+                usersList.Add(u);
+                Users = users;
+            });
+           
         }
         public void RemoveUsers(List<User> users)
         {
-            var userIds = users.Select(x => x.Id);
-            Users.RemoveAll(r => userIds.Contains(r.UserId));
+            var userIds = users.Select(x => x.Id).ToList();
+            userIds.ForEach(id =>
+            {
+                var user = Users.AsEnumerable().FirstOrDefault(x => x.Id == id);
+                Users.Remove(user);
+            });
+            
         }
         public void Inactivate()
            => Status = Status.Inactive;

@@ -39,7 +39,9 @@ namespace Tm.Api.Extensions
         {
             get
             {
-                
+                if (!string.IsNullOrWhiteSpace(_companyId)) return _companyId;
+                _companyId = Claims.FindFirst("companyId")?
+                                     .Value ?? throw new KeyNotFoundException("Unauthorize user.");
                 return _companyId;
             }
             set => _companyId = value;

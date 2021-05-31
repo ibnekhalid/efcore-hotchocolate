@@ -60,7 +60,7 @@ namespace Tm.Api
                 .AddGraphQLServer();
 
             services.AddIdentity<Core.Model.User, Role>()
-               .AddEntityFrameworkStores<BaseContext>()
+               .AddEntityFrameworkStores<BaseCommandContext>()
                .AddDefaultTokenProviders();
             services.Configure<IdentityOptions>(options =>
             {

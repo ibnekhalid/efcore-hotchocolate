@@ -21,7 +21,7 @@ namespace Application.Company.Repository
         public Task<List<Core.Model.Company>> GetAll()
             => _companies.ToListAsync();
         public Task<Core.Model.Company> GetFirstOrDefault(string id)
-            => _companies.FirstOrDefaultAsync(x => x.Id.Equals(id));
+            => _companies.FirstOrDefaultAsync(x => x.Id.ToLower().Equals(id));
         public Task<bool> IsNameDuplicate(string name)
             => _companies.AnyAsync(x => x.Name.ToLower().Equals(name.ToLower()));
         public Task<bool> IsNameDuplicate(string id, string name)

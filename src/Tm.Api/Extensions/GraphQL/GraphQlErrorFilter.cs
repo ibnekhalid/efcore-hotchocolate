@@ -38,10 +38,14 @@ namespace Tm.Api.Extensions.GraphQL
         }
 
         private static IError HandleException(IError error, Exception exception)
-            => new ErrorBuilder()
-                .SetMessage(exception.Message)
-                .SetExtension("type", exception.Message)
-                .Build();
+        {
+            if (exception is null)
+                return error;
+            return new ErrorBuilder()
+                  .SetMessage(exception.Message)
+                  .SetExtension("type", exception.Message)
+                  .Build();
+        }
 
    
     }
