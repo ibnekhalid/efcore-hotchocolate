@@ -5,6 +5,7 @@ using HotChocolate.AspNetCore.Authorization;
 using HotChocolate.Data;
 using HotChocolate.Types;
 using System.Linq;
+using Core.Model;
 using Tm.Api.Extensions;
 using Tm.Api.Extensions.GraphQL;
 
@@ -40,8 +41,9 @@ namespace Tm.Api.QueryTypes.Company
             descriptor.Field(x => x.CompanyId);
             descriptor.Field(x => x.Title);
             descriptor.Field(x => x.Status);
-            descriptor.Field(x => x.Users);
+            descriptor.Field(x => x.UserProjects);
             descriptor.Field(x => x.Description);
+            descriptor.Field("users").Resolver(resolve=> resolve.Parent<Project>().UserProjects.Select(u => u.User));
         }
     }
 }

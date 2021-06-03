@@ -34,8 +34,8 @@ namespace Tm.Api.Extensions
             void QueryConfigurations(DbContextOptionsBuilder options)
             {
                 Configurations(options);
-                options.UseLazyLoadingProxies(false);
-                options.UseChangeTrackingProxies(false);
+                //options.UseLazyLoadingProxies(false);
+                //options.UseChangeTrackingProxies(false);
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             }
             return services;

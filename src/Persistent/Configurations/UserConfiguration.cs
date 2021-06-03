@@ -16,18 +16,18 @@ namespace Persistent.Configurations
             template.Property(e => e.Status).HasConversion(s => (byte)s, s => (Status)s);
             template.Property(e => e.Email).HasMaxLength(20);
 
-            template
-               .HasMany(x => x.UserProjects)
-               .WithMany(x => x.Users)
-               .UsingEntity<UserProject>(
-                   ba => ba
-                       .HasOne(e => e.Project)
-                       .WithMany()
-                       .HasForeignKey(e => e.ProjectId),
-                   ba => ba
-                       .HasOne(e => e.User)
-                       .WithMany()
-                       .HasForeignKey(e => e.UserId));
+            //template
+            //   .HasMany(x => x.UserProjects)
+            //   .WithMany(x => x.Project)
+            //   .UsingEntity<UserProject>(
+            //       ba => ba
+            //           .HasOne(e => e.Project)
+            //           .WithMany()
+            //           .HasForeignKey(e => e.ProjectId),
+            //       ba => ba
+            //           .HasOne(e => e.User)
+            //           .WithMany()
+            //           .HasForeignKey(e => e.UserId));
         }
     }
 }

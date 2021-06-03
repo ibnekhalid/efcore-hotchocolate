@@ -15,19 +15,20 @@ namespace Persistent.Configurations
             template.Property(e => e.CompanyId).HasColumnName("CompanyId");
             template.Property(e => e.Status).HasConversion(s => (byte)s, s => (Status)s);
             template.Property(e => e.Title).HasMaxLength(20);
+           // template.Navigation(x => x.Users);
 
-            template
-                 .HasMany(x => x.Users)
-                 .WithMany(x => x.UserProjects)
-                 .UsingEntity<UserProject>(
-                     ba => ba
-                         .HasOne(e => e.User)
-                         .WithMany()
-                         .HasForeignKey(e => e.UserId),
-                     ba => ba
-                         .HasOne(e => e.Project)
-                         .WithMany()
-                         .HasForeignKey(e => e.ProjectId));
+            //template
+            //     .HasMany(x => x.Users)
+            //     .WithMany(x => x.UserProjects)
+            //     .UsingEntity<UserProject>(
+            //         ba => ba
+            //             .HasOne(e => e.User)
+            //             .WithMany()
+            //             .HasForeignKey(e => e.UserId),
+            //         ba => ba
+            //             .HasOne(e => e.Project)
+            //             .WithMany()
+            //             .HasForeignKey(e => e.ProjectId));
         }
     }
 }

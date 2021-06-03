@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Model;
+using Microsoft.AspNetCore.Identity;
 
 namespace Application.Projects.Commands
 {
@@ -11,10 +13,12 @@ namespace Application.Projects.Commands
     {
         private readonly ICompanyRepository _companyRepository;
         private readonly IUserCommandService _userCommandService;
-        public ProjectCommandService(ICompanyRepository companyRepository, IUserCommandService userCommandService)
+        private readonly UserManager<User> _userManager;
+        public ProjectCommandService(ICompanyRepository companyRepository, IUserCommandService userCommandService, UserManager<User> userManager)
         {
             _companyRepository = companyRepository;
             _userCommandService = userCommandService;
+            _userManager = userManager;
         }
         public async Task<string> Create(string companyId, CreateProjectVm vm)
         {
