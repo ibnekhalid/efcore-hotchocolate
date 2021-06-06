@@ -43,7 +43,7 @@ namespace Tm.Api.QueryTypes.Company
             descriptor.Field(x => x.Status);
             descriptor.Field(x => x.UserProjects);
             descriptor.Field(x => x.Description);
-            descriptor.Field("users").Resolver(resolve=> resolve.Parent<Project>().UserProjects.Select(u => u.User));
+            descriptor.Field("users").Resolver(resolve => resolve.Parent<Project>().UserProjects.Select(u => u.User));
         }
     }
 }

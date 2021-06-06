@@ -102,6 +102,7 @@ namespace Application.Account
 			{
 						new Claim(JwtRegisteredClaimNames.Sub, user.Id),
 						new Claim("companyId", user.CompanyId),
+						new Claim("company", user.Company.Name),
 						new Claim(JwtRegisteredClaimNames.Email, user.Email),
 						new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
 						new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),

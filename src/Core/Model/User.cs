@@ -16,7 +16,7 @@ namespace Core.Model
 
         #region Navigations
         public virtual Company Company { get; protected set; }
-        public virtual List<Project> Projects { get; protected set; } = new List<Project>();
+       
         public virtual List<UserProject> UserProjects { get; set; } = new List<UserProject>();
         #endregion
         #region Construtors
