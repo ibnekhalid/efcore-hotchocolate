@@ -95,6 +95,7 @@ namespace Persistent.Migrations
                     ProjectID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CompanyId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Title = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<byte>(type: "tinyint", nullable: false)
                 },
                 constraints: table =>
@@ -198,8 +199,7 @@ namespace Persistent.Migrations
                 {
                     UserProjectID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UserID = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ProjectID = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Status = table.Column<byte>(type: "tinyint", nullable: false)
+                    ProjectID = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -210,10 +210,47 @@ namespace Persistent.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "UserID");
                     table.ForeignKey(
-                        name: "FK_UserProject_Project_UserID",
-                        column: x => x.UserID,
+                        name: "FK_UserProject_Project_ProjectID",
+                        column: x => x.ProjectID,
                         principalTable: "Project",
                         principalColumn: "ProjectID");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "WorkItem",
+                columns: table => new
+                {
+                    WorkItemID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Priority = table.Column<byte>(type: "tinyint", nullable: false),
+                    Activity = table.Column<byte>(type: "tinyint", nullable: false),
+                    EstimatedHours = table.Column<byte>(type: "tinyint", nullable: false),
+                    RemainingHours = table.Column<byte>(type: "tinyint", nullable: false),
+                    CompletedHours = table.Column<byte>(type: "tinyint", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Tags = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Discussion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<byte>(type: "tinyint", nullable: false),
+                    WorkItemType = table.Column<byte>(type: "tinyint", nullable: false),
+                    ParentId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ProjectId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UpdateHistory = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WorkItem", x => x.WorkItemID);
+                    table.ForeignKey(
+                        name: "FK_WorkItem_Project_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Project",
+                        principalColumn: "ProjectID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_WorkItem_WorkItem_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "WorkItem",
+                        principalColumn: "WorkItemID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -284,6 +321,11 @@ namespace Persistent.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserProject_ProjectID",
+                table: "UserProject",
+                column: "ProjectID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserProject_UserID",
                 table: "UserProject",
                 column: "UserID");
@@ -292,6 +334,22 @@ namespace Persistent.Migrations
                 name: "IX_UserProject_UserProjectID",
                 table: "UserProject",
                 column: "UserProjectID",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkItem_ParentId",
+                table: "WorkItem",
+                column: "ParentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkItem_ProjectId",
+                table: "WorkItem",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkItem_WorkItemID",
+                table: "WorkItem",
+                column: "WorkItemID",
                 unique: true);
         }
 
@@ -314,6 +372,9 @@ namespace Persistent.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserProject");
+
+            migrationBuilder.DropTable(
+                name: "WorkItem");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

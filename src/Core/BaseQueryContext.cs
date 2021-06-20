@@ -32,5 +32,6 @@ namespace Core
         public DbSet<Company> Company { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<UserProject> UserProjects { get; set; }
+        public DbSet<WorkItem> WorkItems { get; set; }
     }
 }

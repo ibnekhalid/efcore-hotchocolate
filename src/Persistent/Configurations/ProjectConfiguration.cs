@@ -15,7 +15,9 @@ namespace Persistent.Configurations
             template.Property(e => e.CompanyId).HasColumnName("CompanyId");
             template.Property(e => e.Status).HasConversion(s => (byte)s, s => (Status)s);
             template.Property(e => e.Title).HasMaxLength(20);
-           // template.Navigation(x => x.Users);
+
+            template.HasMany(e => e.WorkItems).WithOne(x=>x.Project).HasForeignKey(x=>x.ProjectId).OnDelete(DeleteBehavior.Cascade);
+            // template.Navigation(x => x.Users);
 
             //template
             //     .HasMany(x => x.Users)

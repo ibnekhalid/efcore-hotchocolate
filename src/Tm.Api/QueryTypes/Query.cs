@@ -1,6 +1,7 @@
 ﻿using Common.GraphQL;
 using HotChocolate.Types;
 using Tm.Api.QueryTypes.Company;
+using Tm.Api.QueryTypes.Task;
 
 namespace Tm.Api.QueryTypes
 {
@@ -27,6 +28,9 @@ namespace Tm.Api.QueryTypes
 
             descriptor.Field<UserQueryType>(resolver =>
             resolver.GetUser(default, default, default)).Name("User");
+
+            descriptor.Field<TaskQueryType>(resolver =>
+            resolver.GetTasks(default, default, default)).Name("WorkItem");
         }
     }
 }

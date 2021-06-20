@@ -8,6 +8,7 @@ namespace Core.Mananger.DBContext
 {
     public interface IBaseCommandContext : IBaseQueryContext
     {
+       
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

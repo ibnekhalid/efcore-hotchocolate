@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Tm.Api.MutationType.Company;
 using Tm.Api.MutationType.Project;
+using Tm.Api.MutationType.Task;
 
 namespace Tm.Api.MutationType
 {
@@ -13,11 +14,11 @@ namespace Tm.Api.MutationType
         protected string Ok(string value = null)
             => value?.Length<1 ? "200" : value;
         protected Task<string> OkResult(string value = null)
-            => Task.FromResult(value?.Length < 1 ? "200" : value);
+            => System.Threading.Tasks.Task.FromResult(value?.Length < 1 ? "200" : value);
         protected int Ok(int value)
             => value;
         protected Task<string> OkResult(Guid value)
-            => Task.FromResult(value.ToString());
+            => System.Threading.Tasks.Task.FromResult(value.ToString());
     }
     public class Mutation
     {
@@ -28,7 +29,9 @@ namespace Tm.Api.MutationType
         public ProjectMutationType Project => new ProjectMutationType();
         [Authorize]
         public UserMutationType User => new UserMutationType();
-       
+        [Authorize]
+        public TaskMutationType Task => new TaskMutationType();
+
 
     }
 }

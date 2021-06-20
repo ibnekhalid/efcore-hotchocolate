@@ -65,7 +65,7 @@ namespace Core.Model
            => Projects.FirstOrDefault(x => x.Id.Equals(id));
         public void AddProject(Project project)
         {
-            if (Projects.Any(x => x.Title.ToLower().Equals(project.Title.ToLower()))) throw new Exception($"project with email '{project.Title}' already exists.");
+            if (Projects.Any(x => x.Title.ToLower().Equals(project.Title.ToLower()))) throw new Exception($"project with title '{project.Title}' already exists.");
             Projects.Add(project);
         }
         public void RemoveProject(int projectId)

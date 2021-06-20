@@ -201,6 +201,66 @@ namespace Persistent.Migrations
                     b.ToTable("UserProject");
                 });
 
+            modelBuilder.Entity("Core.Model.WorkItem", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("WorkItemID");
+
+                    b.Property<byte>("Activity")
+                        .HasColumnType("tinyint");
+
+                    b.Property<byte>("CompletedHours")
+                        .HasColumnType("tinyint");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Discussion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte>("EstimatedHours")
+                        .HasColumnType("tinyint");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ParentId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<byte>("Priority")
+                        .HasColumnType("tinyint");
+
+                    b.Property<string>("ProjectId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<byte>("RemainingHours")
+                        .HasColumnType("tinyint");
+
+                    b.Property<byte>("Status")
+                        .HasColumnType("tinyint");
+
+                    b.Property<string>("Tags")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdateHistory")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte>("WorkItemType")
+                        .HasColumnType("tinyint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.HasIndex("ParentId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("WorkItem");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -341,6 +401,22 @@ namespace Persistent.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Core.Model.WorkItem", b =>
+                {
+                    b.HasOne("Core.Model.WorkItem", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId");
+
+                    b.HasOne("Core.Model.Project", "Project")
+                        .WithMany("WorkItems")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Parent");
+
+                    b.Navigation("Project");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Core.Model.Role", null)
@@ -402,11 +478,18 @@ namespace Persistent.Migrations
             modelBuilder.Entity("Core.Model.Project", b =>
                 {
                     b.Navigation("UserProjects");
+
+                    b.Navigation("WorkItems");
                 });
 
             modelBuilder.Entity("Core.Model.User", b =>
                 {
                     b.Navigation("UserProjects");
+                });
+
+            modelBuilder.Entity("Core.Model.WorkItem", b =>
+                {
+                    b.Navigation("Children");
                 });
 #pragma warning restore 612, 618
         }

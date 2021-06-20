@@ -31,6 +31,7 @@ namespace Persistent
         public DbSet<Company> Company { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<UserProject> UserProjects { get; set; }
+        public DbSet<WorkItem> WorkItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -59,6 +60,7 @@ namespace Persistent
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             ChangeTracker.DetectChanges();
+            var entries = ChangeTracker.Entries();
             var result = await base.SaveChangesAsync(cancellationToken);
             return result;
         }

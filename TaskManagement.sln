@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "src\Core\Core.cspro
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "src\Application\Application.csproj", "{00973A1C-04C2-444E-B6DD-62AB95759495}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "src\Test\Test.csproj", "{CA9699BA-3E94-4B07-941B-7EF792D21948}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "src\Test\Test.csproj", "{CA9699BA-3E94-4B07-941B-7EF792D21948}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -12,6 +12,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Projects\Repository\**" />
+    <EmbeddedResource Remove="Projects\Repository\**" />
+    <None Remove="Projects\Repository\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.10.2" />
   </ItemGroup>
 
@@ -22,7 +28,6 @@
 
   <ItemGroup>
     <Folder Include="User\Repository\" />
-    <Folder Include="Projects\Repository\" />
   </ItemGroup>
 
 </Project>

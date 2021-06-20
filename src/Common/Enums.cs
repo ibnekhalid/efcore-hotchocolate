@@ -6,6 +6,24 @@ namespace Common
     {
         Inactive,
         Active,
-        Complete
+        Complete,
+        New
     }
+    public enum WorkItemType
+    {
+        General,
+        UserStory,
+        Task,
+        Bug,
+        Issue
+    }
+    public enum Activity
+	{
+        Deployment,
+        Design,
+        Development,
+        Documentation,
+        Requirments,
+        Testing
+	}
 }
